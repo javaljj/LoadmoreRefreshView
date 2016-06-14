@@ -1,1 +1,1 @@
-include ':app', ':lj'
+include ':simple', ':ljLib'

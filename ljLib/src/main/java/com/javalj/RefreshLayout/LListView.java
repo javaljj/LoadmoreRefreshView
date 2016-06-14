@@ -63,8 +63,6 @@ public class LListView extends ListView implements AbsListView.OnScrollListener,
 
     @Override
     public void onRefresh() {
-        if (lBaseSwipeRefreshLayout.isRefreshing())
-            return;
         lBaseSwipeRefreshLayout.setRefreshing(true);
         onLoadMoreLinstener.onRefresh();
 
