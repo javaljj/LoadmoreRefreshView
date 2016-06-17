@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">LjCustomView</string>
+    <string name="salary_superman">xx</string>
+    <string name="peekup_my_salary">00</string>
+    <string name="life_service">asd</string>
 </resources>

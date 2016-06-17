@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
 import com.javalj.RefreshLayout.LBaseSwipeRefreshLayout;
 import com.javalj.RefreshLayout.LListView;
+import com.javalj.RefreshLayout.impl.OnLoadMoreLinstener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +34,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lListView = (LListView) findViewById(R.id.list);
         baseSwipeRefreshLayout = (LBaseSwipeRefreshLayout) findViewById(R.id.swp);
+        LinearLayout v = (LinearLayout) findViewById(R.id.ept);
+        ViewGroup parent = (ViewGroup) lListView.getParent();
+        parent.addView(v, 2);
+        lListView.setEmptyView(v);
         lListView.setlBaseSwipeRefreshLayout(baseSwipeRefreshLayout);
-        lListView.setOnLoadMoreLinstener(new LListView.OnLoadMoreLinstener() {
+        lListView.setOnLoadMoreLinstener(new OnLoadMoreLinstener() {
             @Override
             public void loadMore(boolean isrefresh) {
                 laodMoreData();
@@ -48,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 laodMoreData();
             }
         });
-        laodMoreData();
+        //  laodMoreData();
         stringArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mlist);
         lListView.setAdapter(stringArrayAdapter);
         stringArrayAdapter.notifyDataSetChanged();

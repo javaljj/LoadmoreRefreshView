@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.javalj.RefreshLayout.impl.OnLoadMoreLinstener;
+
 /**
  * Created by lijie on 2016/6/14.
  */
@@ -13,6 +15,7 @@ public class LListView extends ListView implements AbsListView.OnScrollListener,
     private boolean isRefresh = false;
     private OnLoadMoreLinstener onLoadMoreLinstener;
     private LBaseSwipeRefreshLayout lBaseSwipeRefreshLayout;
+    private int totalCount = -1;
 
     public LListView(Context context) {
         this(context, null);
@@ -20,6 +23,7 @@ public class LListView extends ListView implements AbsListView.OnScrollListener,
 
     public LListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         setOnScrollListener(this);
     }
 
@@ -48,8 +52,11 @@ public class LListView extends ListView implements AbsListView.OnScrollListener,
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (totalItemCount > 0 && firstVisibleItem + visibleItemCount == totalItemCount) {
+        if (totalItemCount > 0 &&
+                totalCount != totalItemCount
+                && firstVisibleItem + visibleItemCount == totalItemCount) {
             if (isRefresh == false) {
+                totalCount = totalItemCount;
                 isRefresh = true;
                 lBaseSwipeRefreshLayout.setRefreshing(true);
                 onLoadMoreLinstener.loadMore(isRefresh);
@@ -65,12 +72,5 @@ public class LListView extends ListView implements AbsListView.OnScrollListener,
     public void onRefresh() {
         lBaseSwipeRefreshLayout.setRefreshing(true);
         onLoadMoreLinstener.onRefresh();
-
-    }
-
-    public interface OnLoadMoreLinstener {
-        void loadMore(boolean isrefresh);
-
-        void onRefresh();
     }
 }
